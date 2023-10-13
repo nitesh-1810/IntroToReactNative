@@ -1,11 +1,21 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import Home from "./src/screens/Home";
+import Form from "./src/screens/Form";
+import Problem1 from "./src/Tasks/Problem1";
+import FlatListDemo from "./src/Tasks/FlatListDemo";
 
 export default function App() {
   return (
     <View style={styles.container}>
       <Text>First Line of code</Text>
       <StatusBar style="auto" />
+      <Text>Wow!</Text>
+      <Home />
+      <Form />
+      <Problem1 />
+
+      <FlatListDemo />
     </View>
   );
 }
@@ -13,8 +23,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 50,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    marginLeft: 10,
+    marginRight: 10,
   },
 });

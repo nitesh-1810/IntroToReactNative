@@ -2,21 +2,24 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import Home from "./src/screens/Home";
 import Form from "./src/screens/Form";
-import Problem1 from "./src/Tasks/Problem1";
-import FlatListDemo from "./src/Tasks/FlatListDemo";
+import Problem1 from "./src/screens/Problem1";
+import FlatListDemo from "./src/screens/FlatListDemo";
+import FormDemo from "./src/Tasks/FormDemo";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>First Line of code</Text>
-      <StatusBar style="auto" />
-      <Text>Wow!</Text>
-      <Home />
-      <Form />
-      <Problem1 />
-
-      <FlatListDemo />
-    </View>
+    <>
+      <FormDemo />
+    </>
+    // <View style={styles.container}>
+    //   <Text>First Line of code</Text>
+    //   <StatusBar style="auto" />
+    //   <Text>Wow!</Text>
+    //   <Home />
+    //   <Form />
+    //   <Problem1 />
+    //   <FlatListDemo />
+    // </View>
   );
 }
 

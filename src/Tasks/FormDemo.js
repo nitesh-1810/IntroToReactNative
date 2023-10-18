@@ -1,146 +1,190 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, StyleSheet, TextInput, Button, Alert } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
 const FormDemo = () => {
   const [selectedValue, setSelectedValue] = useState(
     "Please Select Your Country"
   );
-  const [selectedCode, setSelectedCode] = useState("Country Code");
+  const [selectedCode, setSelectedCode] = useState("");
+
+  const [userName, setUserName] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const [userPhone, setUserPhone] = useState("");
+
   return (
-    <>
-      <View style={styles.viewStyle}>
-        <Text style={styles.textStyle}>Form</Text>
-      </View>
+    <View style={styles.container}>
+      <Text style={styles.textStyle}>User Details Form</Text>
       <View style={styles.inputViewStyle}>
-        <Text>User Name</Text>
-        <TextInput
-          placeholder="user name"
-          value="John Wick"
-          style={styles.userInputStyle}
-        />
-        <Text>User Password</Text>
-        <TextInput
-          placeholder="user password"
-          value="*******"
-          style={styles.userInputStyle}
-        />
-        <Text>Gender</Text>
-        <View style={{ flexDirection: "row" }}>
-          <TextInput placeholder="male" value="" style={styles.genderInput} />
-          <Text>Male</Text>
-          <TextInput placeholder="Female" value="" style={styles.genderInput} />
-          <Text>Female</Text>
-          <TextInput placeholder="Other" value="" style={styles.genderInput} />
-          <Text>Other</Text>
+        <View style={styles.viewBox}>
+          <Text>User Name</Text>
+          <TextInput
+            placeholder="User name"
+            value={userName}
+            style={styles.userInputStyle}
+            onChangeText={(text) => setUserName(text)}
+          />
         </View>
-        <Text>Country </Text>
-        <View
-          style={{
-            borderWidth: 1,
-            borderColor: "#2a6592",
-            height: 50,
-            justifyContent: "center",
-          }}
-        >
-          <Picker
-            selectedValue={selectedValue}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
-            }
-            style={styles.pickerStyle}
-          >
-            <Picker.Item label="Please Select Your Country" value="" />
-            <Picker.Item label="India" value="India" />
-            <Picker.Item label="England" value="England" />
-            <Picker.Item label="Aus" value="Aus" />
-          </Picker>
+        <View style={styles.viewBox}>
+          <Text>User Password</Text>
+          <TextInput
+            placeholder="Enter password"
+            value={userPassword}
+            style={styles.userInputStyle}
+            onChangeText={(text) => setUserPassword(text)}
+          />
         </View>
-        <Text>Phone No. </Text>
-        <View style={{ flexDirection: "row", height: 50 }}>
-          <View
-            style={{
-              borderWidth: 1,
-              borderColor: "green",
-              marginRight: 5,
-              justifyContent: "center",
-            }}
-          >
+        <View style={styles.viewBox}>
+          <Text>Gender</Text>
+          <View style={styles.genderView}>
+            <TextInput placeholder="male" value="" style={styles.genderInput} />
+            <Text>Male</Text>
+            <TextInput
+              placeholder="Female"
+              value=""
+              style={styles.genderInput}
+            />
+            <Text>Female</Text>
+            <TextInput
+              placeholder="Other"
+              value=""
+              style={styles.genderInput}
+            />
+            <Text>Other</Text>
+          </View>
+        </View>
+        <View style={styles.viewBox}>
+          <Text>Country </Text>
+          <View style={styles.countryView}>
             <Picker
-              selectedValue={selectedCode}
+              selectedValue={selectedValue}
               onValueChange={(itemValue, itemIndex) =>
-                setSelectedCode(itemValue)
+                setSelectedValue(itemValue)
               }
-              style={styles.codePickerStyle}
+              style={styles.pickerStyle}
             >
-              <Picker.Item label="+" value="" />
-              <Picker.Item label="IN" value="+91" />
-              <Picker.Item label="US" value="+56" />
-              <Picker.Item label="UK" value="+44" />
+              <Picker.Item label="Please Select Your Country" value="" />
+              <Picker.Item label="India" value="India" />
+              <Picker.Item label="England" value="England" />
+              <Picker.Item label="Spain" value="Spain" />
+              <Picker.Item label="United States" value="United States" />
+              <Picker.Item label="Australia" value="Australia" />
             </Picker>
           </View>
-          <View
-            style={{
-              borderWidth: 1,
-              borderColor: "green",
-              flex: 2,
-              justifyContent: "center",
-              padding: 7,
-            }}
-          >
-            <TextInput placeholder="Phnoe Number" label="Ph no." value="" />
+        </View>
+        <View style={styles.viewBox}>
+          <Text>Phone No. </Text>
+          <View style={styles.phoneView}>
+            <View style={styles.codeView}>
+              <Picker
+                selectedValue={selectedCode}
+                onValueChange={(itemValue, itemIndex) =>
+                  setSelectedCode(itemValue)
+                }
+                style={styles.codePickerStyle}
+              >
+                <Picker.Item label="+" value="" />
+                <Picker.Item label="IN" value="+91" />
+                <Picker.Item label="US" value="+6" />
+                <Picker.Item label="UK" value="+44" />
+                <Picker.Item label="BR" value="+55" />
+                <Picker.Item label="AUS" value="+61" />
+              </Picker>
+            </View>
+            <View style={styles.phoneNumView}>
+              <TextInput
+                placeholder="Phone Number"
+                label="Ph no."
+                value={userPhone}
+                onChangeText={(text) => setUserPhone(text)}
+              />
+            </View>
           </View>
         </View>
+        <View style={styles.viewBox}>
+          <Button
+            color="green"
+            title="Sign Up"
+            onPress={() => {
+              Alert.alert(
+                `Name: ${userName}, PassWord: ${userPassword}, Country: ${selectedValue}, Phone no: ${selectedCode} ${userPhone}`
+              );
+              setSelectedValue("");
+              setUserName("");
+              setUserPassword("");
+              setSelectedCode("");
+              setUserPhone("");
+              setUserPhone("");
+            }}
+          />
+        </View>
       </View>
-    </>
+    </View>
   );
 };
-
 export default FormDemo;
 
 const styles = StyleSheet.create({
-  viewStyle: {
-    marginTop: 40,
-    marginLeft: 20,
-    marginRight: 20,
-    borderWidth: 1,
-    borderColor: "red",
-  },
+  container: { backgroundColor: "#4747d1", height: "100%" },
+  viewBox: { marginBottom: 10, marginTop: 10 },
   textStyle: {
     fontSize: 30,
     textAlign: "center",
+    marginTop: 65,
+    color: "white",
   },
   inputViewStyle: {
-    marginTop: 20,
-    marginLeft: 20,
+    backgroundColor: "white",
+    marginTop: 50,
     marginRight: 20,
-    borderWidth: 1,
-    borderColor: "green",
-    padding: 10,
+    marginLeft: 20,
+    marginBottom: 50,
+    borderRadius: 16,
+    padding: 23,
+    paddingBottom: 40,
   },
   userInputStyle: {
     borderWidth: 0.5,
     borderColor: "blue",
-    color: "white",
+    // color: "white",
     margin: 5,
     padding: 10,
     borderRadius: 5,
   },
+  genderView: { flexDirection: "row", alignItems: "center" },
   genderInput: {
     borderWidth: 0.5,
     borderColor: "blue",
-    color: "white",
+    // color: "white",
     margin: 5,
     padding: 10,
     borderRadius: 50,
     width: 6,
     height: 6,
   },
-  pickerStyle: {
+  countryView: {
     borderWidth: 1,
-    borderColor: "red",
+    borderColor: "#2a6592",
+    height: 50,
+    justifyContent: "center",
   },
   codePickerStyle: {
     width: 100,
+  },
+  phoneView: { flexDirection: "row", height: 50 },
+  codeView: {
+    borderWidth: 1,
+    borderColor: "green",
+    marginRight: 5,
+    justifyContent: "center",
+    borderRadius: 5,
+  },
+  phoneNumView: {
+    borderWidth: 1,
+    borderColor: "green",
+    flex: 2,
+    justifyContent: "center",
+    padding: 7,
+    borderRadius: 5,
   },
 });

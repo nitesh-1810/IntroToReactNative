@@ -1,5 +1,12 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+//import { StatusBar } from "expo-status-bar";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  StatusBar, // Auto adjust status bar of phone
+} from "react-native";
 import Home from "./src/screens/Home";
 import Form from "./src/screens/Form";
 import Problem1 from "./src/screens/Problem1";
@@ -8,9 +15,11 @@ import FormDemo from "./src/Tasks/FormDemo";
 
 export default function App() {
   return (
-    <>
-      <FormDemo />
-    </>
+    <SafeAreaView style={styles.wrapper}>
+      <ScrollView>
+        <FormDemo />
+      </ScrollView>
+    </SafeAreaView>
     // <View style={styles.container}>
     //   <Text>First Line of code</Text>
     //   <StatusBar style="auto" />
@@ -31,4 +40,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
+
+  wrapper: { flex: 1, paddingTop: StatusBar.currentHeight },
 });

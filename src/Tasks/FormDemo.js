@@ -1,16 +1,51 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button, Alert } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../../firebase/firebase.config";
 
 const FormDemo = () => {
-  const [selectedValue, setSelectedValue] = useState(
-    "Please Select Your Country"
-  );
+  const [country, setCountry] = useState("");
   const [selectedCode, setSelectedCode] = useState("");
 
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [userPhone, setUserPhone] = useState("");
+  const [nameError, setNameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [countryError, setCountryError] = useState(false);
+  const [countryCodeError, setCountryCodeError] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
+
+  const saveData = async () => {
+    !userName ? setNameError(true) : setNameError(false);
+
+    !userPhone ? setPhoneError(true) : setPhoneError(false);
+
+    !country ? setCountryError(true) : setCountryError(false);
+
+    !selectedCode ? setCountryCodeError(true) : setCountryCodeError(false);
+
+    !userPassword ? setPasswordError(true) : setPasswordError(false);
+
+    if (!userName || !userPhone || !country || !selectedCode || !userPassword) {
+      return false;
+    }
+    const docRef = await addDoc(collection(db, "users"), {
+      Name: userName,
+      Password: userPassword,
+      Country: country,
+      CountryCode: selectedCode,
+      PhoneNo: userPhone,
+    });
+    console.log("Document written with ID: ", docRef.id);
+    Alert.alert(`Hello ${userName}, Successfully Sign UP`);
+    setCountry("");
+    setUserName("");
+    setUserPassword("");
+    setSelectedCode("");
+    setUserPhone("");
+  };
 
   return (
     <View style={styles.container}>
@@ -24,6 +59,9 @@ const FormDemo = () => {
             style={styles.userInputStyle}
             onChangeText={(text) => setUserName(text)}
           />
+          {nameError && (
+            <Text style={styles.validation}>Please enter your name</Text>
+          )}
         </View>
         <View style={styles.viewBox}>
           <Text>User Password</Text>
@@ -33,6 +71,9 @@ const FormDemo = () => {
             style={styles.userInputStyle}
             onChangeText={(text) => setUserPassword(text)}
           />
+          {passwordError && (
+            <Text style={styles.validation}>Please enter password</Text>
+          )}
         </View>
         <View style={styles.viewBox}>
           <Text>Gender</Text>
@@ -57,10 +98,8 @@ const FormDemo = () => {
           <Text>Country </Text>
           <View style={styles.countryView}>
             <Picker
-              selectedValue={selectedValue}
-              onValueChange={(itemValue, itemIndex) =>
-                setSelectedValue(itemValue)
-              }
+              selectedValue={country}
+              onValueChange={(itemValue) => setCountry(itemValue)}
               style={styles.pickerStyle}
             >
               <Picker.Item label="Please Select Your Country" value="" />
@@ -71,6 +110,9 @@ const FormDemo = () => {
               <Picker.Item label="Australia" value="Australia" />
             </Picker>
           </View>
+          {countryError && (
+            <Text style={styles.validation}>Please select your country</Text>
+          )}
         </View>
         <View style={styles.viewBox}>
           <Text>Phone No. </Text>
@@ -100,22 +142,37 @@ const FormDemo = () => {
               />
             </View>
           </View>
+          {countryCodeError && (
+            <Text style={styles.validation}>
+              Please select your country code
+            </Text>
+          )}
+          {phoneError && (
+            <Text style={styles.validation}>
+              Please enter your phone number
+            </Text>
+          )}
         </View>
         <View style={styles.viewBox}>
           <Button
             color="green"
             title="Sign Up"
-            onPress={() => {
-              Alert.alert(
-                `Name: ${userName}, PassWord: ${userPassword}, Country: ${selectedValue}, Phone no: ${selectedCode} ${userPhone}`
-              );
-              setSelectedValue("");
-              setUserName("");
-              setUserPassword("");
-              setSelectedCode("");
-              setUserPhone("");
-              setUserPhone("");
-            }}
+            onPress={
+              //   () => {
+              //   Alert.alert(
+              //     `Name: ${userName}, PassWord: ${userPassword}, Country: ${selectedValue}, Phone no: ${selectedCode} ${userPhone}`
+              //   );
+              //   setSelectedValue("");
+              //   setUserName("");
+              //   setUserPassword("");
+              //   setSelectedCode("");
+              //   setUserPhone("");
+              //   setUserPhone("");
+              // }
+              () => {
+                saveData();
+              }
+            }
           />
         </View>
       </View>
@@ -186,5 +243,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 7,
     borderRadius: 5,
+  },
+  validation: {
+    color: "red",
   },
 });
